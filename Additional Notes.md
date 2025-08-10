@@ -44,3 +44,31 @@ docker push <name of docker profile>/<name of the image>
 ```
 docker pull <name of docker profile>/<name of the image>
 ```
+
+## Steps to Run FastAPI app on AWS
+1) From AWS account, create an EC2 instance (recommended to connect using Free-tier configs)
+2) Connect to EC2 instance
+3) Run the following commands:
+- sudo apt-get update
+- sudo apt-get install -y docker.io
+    - this installs docker on the EC2 instance
+- sudo systemctl start docker
+    - starts the docker instance
+    - to check, run "sudo docker" and it should provide a lot of docker texts
+- sudo systemctl enable docker
+    - this ensures that if the EC2 instance goes down and then comes back up, the docker instance also gets restarted automatically
+- sudo usermod -aG docker $USER
+    - this allows docker to access external websites such as Dockerhub to pull docker images
+4) Run the "exit" command to exit from instance
+5) Next, restart a new connection to the same EC2 instance
+    - check if docker is still running using command "docker"
+6) Now pull the docker image from dockerhub
+```
+docker pull <name of docker profile>/<name of the image>
+```
+7) Run the Docker Image to create Container (which is static instance of the Docker image)
+```
+docker run -d -p <docker app port as specified in Dockerfile>:<external port> <name of docker profile>/<name of the image>
+```
+8) **NOTE:** Once application is done, remember to close or delete the instance 
+
